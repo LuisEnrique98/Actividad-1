@@ -12,3 +12,6 @@ MYSQL Workbench
 ![image](https://user-images.githubusercontent.com/95056429/178363632-1f68a492-f7c2-468d-b7a7-2c6d5c2c0217.png)
 
 PARA IMPORTAR LA BD DEBE TENER NOMBRE "BDCRUD" Y EN "CONEXION.PHP" INGRESAR SU CONFIGURACIÓN PARA LA CONEXIÓN CON BD
+
+INTERFAZ PRINCIPAL
+![image](https://user-images.githubusercontent.com/95056429/178551190-0c4b10fb-94ba-48c5-95f6-c64f36c9124d.png)
