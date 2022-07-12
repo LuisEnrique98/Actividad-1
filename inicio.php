@@ -5,7 +5,6 @@ $con = conectar();
 $sql = "CALL listarCliente()";
 $query = mysqli_query($con, $sql);
 
-$row = mysqli_fetch_array($query);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -33,7 +32,12 @@ $row = mysqli_fetch_array($query);
                     <li class="nav-item">
                         <a class="nav-link" href="registrarCliente.php">Registrar Clientes</a>
                     </li>
-
+                    <li class="nav-item">
+                        <a class="nav-link" href="registrarCiudad.php">Registrar Ciudad</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="registrarPais.php">Registrar País</a>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -42,11 +46,13 @@ $row = mysqli_fetch_array($query);
     <div class="container overflow-hidden">
         <div class="row gx-5">
             <div class="col">
+                <h4>Backup de Tablas y Datos</h4>
                 <a href="descarga.php" class="btn btn-success">Generar Backup</a>
             </div>
             <div class="col">
-                <form class="d-flex" action="filtro.php?id=<?php echo $row['customer_id'] ?>" method="POST">
-                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                <h4>Buscar cantidad de clientes por nombre</h4>
+                <form class="d-flex" action="filtro.php" method="POST">
+                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="id" id="id">
                     <button class="btn btn-outline-success" type="submit">Search</button>
                 </form>
             </div>
@@ -59,14 +65,14 @@ $row = mysqli_fetch_array($query);
                 <thead class="table-success table-striped">
                     <tr>
                         <th>Codigo</th>
-                        <th>Nombres</th>
+                        <th>Nombre</th>
                         <th>Apellidos</th>
                         <th>Email</th>
                         <th>Dirección</th>
                         <th>Ciudad</th>
                         <th>País</th>
                         <th>Estado</th>
-                        <th>Fecha de creación</th>
+                        <th>F. de creación</th>
                         <th>Última actualización</th>
                         <th>Opciones</th>
                         <th></th>
@@ -85,7 +91,12 @@ $row = mysqli_fetch_array($query);
                             <th><?php echo $row['address'] ?></th>
                             <th><?php echo $row['city'] ?></th>
                             <th><?php echo $row['country'] ?></th>
-                            <th><?php echo $row['active'] ?></th>
+                            <th><?php if ($row['active'] == 1) {
+                                    echo 'Activo';
+                                } else {
+                                    echo 'No Activo';
+                                }
+                                ?></th>
                             <th><?php echo $row['create_date'] ?></th>
                             <th><?php echo $row['last_update'] ?></th>
                             <th><a href="actualizar.php?id=<?php echo $row['customer_id'] ?>" class="btn btn-info">Editar</a></th>

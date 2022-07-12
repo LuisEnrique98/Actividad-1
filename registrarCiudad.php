@@ -2,8 +2,11 @@
 include("conexion.php");
 $con = conectar();
 
-$sql = "select * from city";
+$sql = "select * from country";
 $query = mysqli_query($con, $sql);
+
+$sql1 = "select c.city_id, c.city, co.country, c.last_update from city c inner join country co on c.country_id=co.country_id";
+$query1 = mysqli_query($con, $sql1);
 
 ?>
 <!DOCTYPE html>
@@ -30,10 +33,10 @@ $query = mysqli_query($con, $sql);
                         <a class="nav-link" aria-current="page" href="inicio.php">Inicio</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" href="registrarCliente.php">Registrar Clientes</a>
+                        <a class="nav-link" href="registrarCliente.php">Registrar Clientes</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="registrarCiudad.php">Registrar Ciudad</a>
+                        <a class="nav-link active" href="registrarCiudad.php">Registrar Ciudad</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="registrarPais.php">Registrar País</a>
@@ -43,36 +46,52 @@ $query = mysqli_query($con, $sql);
         </div>
     </nav>
     <div class="container mt-5">
-        
+        <div class="row gx-5">
             <div class="col-md-3">
                 <h1>Registrar Clientes</h1>
                 <form action="insertar.php" method="POST">
-                    <label for="formGroupExampleInput" class="form-label">Nombre</label>
-                    <input type="text" class="form-control mb-3" name="first_name" placeholder="Nombre" required>
-                    <label for="formGroupExampleInput" class="form-label">Apellidos</label>
-                    <input type="text" class="form-control mb-3" name="last_name" placeholder="Apellidos" required>
-                    <label for="formGroupExampleInput" class="form-label">Correo Electrónico</label>
-                    <input type="text" class="form-control mb-3" name="email" placeholder="Correo Electrónico" required>
-                    <label for="formGroupExampleInput" class="form-label">Dirección</label>
-                    <input type="text" class="form-control mb-3" name="address" placeholder="Dirección" required>
-                    <label for="formGroupExampleInput" class="form-label">Ciudad</label>
+                    <label for="formGroupExampleInput" class="form-label">Nombre de la ciudad</label>
+                    <input type="text" class="form-control mb-3" name="city" placeholder="Ciudad" required>
+                    <label for="formGroupExampleInput" class="form-label">País</label>
                     <select name="city_id" class="form-control mb-3">
                         <?php
                         while ($row = mysqli_fetch_array($query)) {
                         ?>
-                            <option value="<?php echo $row['city_id'] ?>"> <?php echo $row['city'] ?> </option>
+                            <option value="<?php echo $row['country_id'] ?>"> <?php echo $row['country'] ?> </option>
                         <?php
                         }
                         ?>
                     </select>
-                    <label for="formGroupExampleInput" class="form-label">Estado</label>
-                    <select name="active" class="form-control mb-3">
-                        <option value="1">Activo</option>
-                        <option value="0">No Activo</option>
-                    </select>
                     <input type="submit" class="btn btn-primary">
                 </form>
             </div>
-        
+            <div class="col-md-8">
+                <table class="table">
+                    <thead class="table-success table-striped">
+                        <tr>
+                            <th>Codigo</th>
+                            <th>Ciudad</th>
+                            <th>País</th>
+                            <th>Última actualización</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <?php
+                        while ($row = mysqli_fetch_array($query1)) {
+                        ?>
+                            <tr>
+                                <th><?php echo $row['city_id'] ?></th>
+                                <th><?php echo $row['city'] ?></th>
+                                <th><?php echo $row['country'] ?></th>
+                                <th><?php echo $row['last_update'] ?></th>
+                            </tr>
+                        <?php
+                        }
+                        ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 </body>

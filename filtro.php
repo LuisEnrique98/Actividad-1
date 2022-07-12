@@ -1,12 +1,14 @@
 <?php
 include("conexion.php");
 $con = conectar();
-$filtro=$_GET['id'];
+$id = $_POST['id'];
+$count = current($con->query("SELECT cantidadClientes('$id') as cantidad")->fetch_row());
+if ($count > 0) {
+    $resultado = "Solamente hay " . $count . " clientes que tienen un " . $id . " en su campo de nombre";
+} else {
+    $resultado = "No hay datos";
+}
 
-$sql = "SELECT cantidadClientes($filtro)";
-$query = mysqli_query($con, $sql);
-
-$row = mysqli_fetch_array($query);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -22,7 +24,7 @@ $row = mysqli_fetch_array($query);
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">CANTIDAD DE CLIENTES</a>
+            <a class="navbar-brand" href="#">ACTIVIDAD</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -34,20 +36,27 @@ $row = mysqli_fetch_array($query);
                     <li class="nav-item">
                         <a class="nav-link" href="registrarCliente.php">Registrar Clientes</a>
                     </li>
-
+                    <li class="nav-item">
+                        <a class="nav-link" href="registrarCiudad.php">Registrar Ciudad</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="registrarPais.php">Registrar País</a>
+                    </li>
                 </ul>
             </div>
         </div>
     </nav>
-    <br><br>
+    <br>
     <div class="container overflow-hidden">
+        <H3>FILTRO DE CANTIDAD DE CLIENTES</H3>
+        <br>
         <div class="row gx-5">
             <div class="col">
-                <a href="descarga.php" class="btn btn-success">Generar Backup</a>
+
             </div>
             <div class="col">
                 <form class="d-flex" action="filtro.php" method="POST">
-                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="id" id="id">
                     <button class="btn btn-outline-success" type="submit">Search</button>
                 </form>
             </div>
@@ -64,15 +73,9 @@ $row = mysqli_fetch_array($query);
                 </thead>
 
                 <tbody>
-                    <?php
-                    while ($row = mysqli_fetch_array($query)) {
-                    ?>
-                        <tr>
-                            <th><?php echo $row['cantidadClientes'] ?></th>
-                        </tr>
-                    <?php
-                    }
-                    ?>
+                    <tr>
+                        <th><?php echo $resultado ?></th>
+                    </tr>
                 </tbody>
             </table>
         </div>
